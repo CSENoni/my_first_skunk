@@ -48,6 +48,13 @@ public class SkunkDomain
 		activePlayer.setTurnScore(0);
 	}
 	
+	// there are also repeatable lines of this boolean lines of code
+	// so it should be better to put it into the function
+	private boolean wantsToRoll() {
+		String wantsToRollStr = ui.promptReadAndReturn("Roll again? y or n");
+		return 'y' == wantsToRollStr.toLowerCase().charAt(0);
+	}
+	
 	public boolean run()
 	{
 		ui.println("Welcome to Skunk 0.47\n");
@@ -72,8 +79,7 @@ public class SkunkDomain
 			ui.println("Next player is " + playerNames[activePlayerIndex] + ".");
 			activePlayer.setTurnScore(0);
 			
-			String wantsToRollStr = ui.promptReadAndReturn("Roll? y or n");
-			boolean wantsToRoll = 'y' == wantsToRollStr.toLowerCase().charAt(0);
+			boolean wantsToRoll = wantsToRoll();
 			
 			while (wantsToRoll)
 			{
@@ -103,8 +109,7 @@ public class SkunkDomain
 				ui.println(
 						"Roll of " + skunkDice.toString() + ", gives new turn score of " + activePlayer.getTurnScore());
 
-				wantsToRollStr = ui.promptReadAndReturn("Roll again? y or n");
-				wantsToRoll = 'y' == wantsToRollStr.toLowerCase().charAt(0);
+				wantsToRoll = wantsToRoll();
 
 			}
 
