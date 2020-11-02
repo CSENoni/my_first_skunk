@@ -30,6 +30,24 @@ public class SkunkDomain
 		this.oneMoreRoll = false;
 	}
 
+	// there are repeatable lines of codes for setting chip,
+	// so having a separate method helps shorten the code
+	// and more readable
+	private void penalty(int pen) {
+		if(pen == 2) {
+			ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
+			activePlayer.setGameScore(0);
+		}else if(pen == 3) {
+			ui.println(
+					"Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
+		}else {
+			ui.println("One Skunk! You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
+		}
+		kitty += pen;
+		activePlayer.setNumberChips(activePlayer.getNumberChips() - pen);
+		activePlayer.setTurnScore(0);
+	}
+	
 	public boolean run()
 	{
 		ui.println("Welcome to Skunk 0.47\n");
@@ -63,33 +81,21 @@ public class SkunkDomain
 				skunkDice.roll();
 				if (skunkDice.getLastRoll() == 2)
 				{
-					ui.println("Two Skunks! You lose the turn, zeroing out both turn and game scores and paying 4 chips to the kitty");
-					kitty += 4;
-					activePlayer.setNumberChips(activePlayer.getNumberChips() - 4);
-					activePlayer.setTurnScore(0);
-					activePlayer.setGameScore(0);
+					penalty(2);
 					wantsToRoll = false;
 					break;
 				}
 				else if (skunkDice.getLastRoll() == 3)
 				{
-					ui.println(
-							"Skunks and Deuce! You lose the turn, zeroing out the turn score and paying 2 chips to the kitty");
-					kitty += 2;
-					activePlayer.setNumberChips(activePlayer.getNumberChips() - 2);
-					activePlayer.setTurnScore(0);
+					penalty(3);
 					wantsToRoll = false;
 					break;
 				}
 				else if (skunkDice.getDie1().getLastRoll() == 1 || skunkDice.getDie2().getLastRoll() == 1)
 				{
-					ui.println("One Skunk! You lose the turn, zeroing out the turn score and paying 1 chip to the kitty");
-					kitty += 1;
-					activePlayer.setNumberChips(activePlayer.getNumberChips() - 1);
-					activePlayer.setTurnScore(0);
+					penalty(1);
 					wantsToRoll = false;
 					break;
-
 				}
 
 				activePlayer.setRollScore(skunkDice.getLastRoll());
