@@ -55,6 +55,17 @@ public class SkunkDomain
 		return 'y' == wantsToRollStr.toLowerCase().charAt(0);
 	}
 	
+	// there are also repeatable lines to print out scoreboard
+	// this extracted function would shorten the code and
+	// more repeatable and be easy to update if there is update to
+	// scoreboard
+	private void printScoreBoard() {
+		ui.println("Scoreboard: ");
+		ui.println("Kitty has " + kitty + " chips.");
+		ui.println("Player name -- Turn score -- Game score -- Total chips");
+		ui.println("-----------------------");
+	}
+	
 	public boolean run()
 	{
 		ui.println("Welcome to Skunk 0.47\n");
@@ -123,10 +134,7 @@ public class SkunkDomain
 			if (activePlayer.getGameScore() >= 100)
 				gameNotOver = false;
 
-			ui.println("Scoreboard: ");
-			ui.println("Kitty has " + kitty + " chips.");
-			ui.println("Player name -- Turn score -- Game score -- Total chips");
-			ui.println("-----------------------");
+			printScoreBoard();
 
 			for (int i = 0; i < numberOfPlayers; i++)
 			{
@@ -192,10 +200,7 @@ public class SkunkDomain
 					ui.println("Roll of " + skunkDice.toString() + ", giving new turn score of "
 							+ activePlayer.getTurnScore());
 
-					ui.println("Scoreboard: ");
-					ui.println("Kitty has " + kitty);
-					ui.println("Player name -- Turn score -- Game score -- Total chips");
-					ui.println("-----------------------");
+					printScoreBoard();
 
 					for (int pNumber = 0; pNumber < numberOfPlayers; pNumber++)
 					{
